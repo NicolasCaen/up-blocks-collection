@@ -24,6 +24,32 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function create_block_ng1_blocks_collection_block_init() {
-	register_block_type( __DIR__ . '/build/ng1-blocks-collection' );
+    // Chemin vers le dossier des blocs compilés
+    $blocks_dir = __DIR__ . '/build/blocks';
+
+    // Vérifier si le dossier existe
+    if (!file_exists($blocks_dir)) {
+        error_log('Le dossier des blocs n\'existe pas : ' . $blocks_dir);
+        return;
+    }
+
+    // Parcourir tous les dossiers dans le dossier des blocs
+    $block_folders = scandir($blocks_dir);
+    foreach ($block_folders as $block_folder) {
+        // Ignorer les dossiers spéciaux (. et ..)
+        if ($block_folder === '.' || $block_folder === '..') {
+            continue;
+        }
+
+        // Chemin complet du dossier du bloc
+        $block_path = $blocks_dir . '/' . $block_folder;
+
+        // Vérifier si c'est un dossier
+        if (is_dir($block_path)) {
+            // Enregistrer le bloc
+            register_block_type($block_path);
+            error_log('Bloc enregistré : ' . $block_folder);
+        }
+    }
 }
-add_action( 'init', 'create_block_ng1_blocks_collection_block_init' );
+add_action('init', 'create_block_ng1_blocks_collection_block_init');

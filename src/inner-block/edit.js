@@ -32,10 +32,7 @@ import './editor.scss';
 export default function Edit() {
 	return (
 		<p { ...useBlockProps() }>
-			{ __(
-				'Ng1 Blocks Collection – hello from the editor!',
-				'ng1-blocks-collection'
-			) }
+			{ __( 'Inner Block – hello from the editor!', 'inner-block' ) }
 		</p>
 	);
 }
