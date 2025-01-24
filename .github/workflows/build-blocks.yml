@@ -30,7 +30,7 @@ jobs:
       # Étape 5 : Compresser les fichiers compilés
       - name: Compress build artifacts
         run: |
-          zip -r build.zip blocks/*/build/
+          zip -r build.zip build/*/
 
       # Étape 6 : Ajouter les fichiers compilés à la release
       - name: Upload build artifacts to release
