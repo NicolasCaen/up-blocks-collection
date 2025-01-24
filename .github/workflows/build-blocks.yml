@@ -1,42 +1,48 @@
-name: Build Gutenberg Blocks on Release
+name: Release Plugin
 
 on:
   release:
-    types: [published]  # Déclenche l'action uniquement lors de la publication d'une release
+    types: [published]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+    
     steps:
-      # Étape 1 : Checkout du code
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Étape 2 : Configurer Node.js
-      - name: Set up Node.js
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Version de Node.js compatible avec @wordpress/scripts
-
-      # Étape 3 : Installer les dépendances
+          node-version: '20'
+          cache: 'npm'
+          
       - name: Install dependencies
-        run: npm install
-
-      # Étape 4 : Builder les blocs
-      - name: Build blocks
-        run: npm run build
-
-      # Étape 5 : Compresser les fichiers compilés
-      - name: Compress build artifacts
         run: |
-          zip -r build.zip build/*/  # Compresse tous les dossiers dans "build/"
-
-      # Étape 6 : Ajouter les fichiers compilés à la release
-      - name: Upload build artifacts to release
-        uses: actions/upload-release-asset@v1
+          npm install
+          npm install @wordpress/scripts@30.8.1 --save-dev
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Create plugin archive
+        run: |
+          # Create a clean directory for the plugin
+          mkdir ng1-blocks-collection
+          
+          # Copy only the necessary files
+          cp -r build/* ng1-blocks-collection/
+          cp *.php ng1-blocks-collection/
+          cp readme.txt ng1-blocks-collection/
+          cp LICENSE ng1-blocks-collection/
+          cp README.md ng1-blocks-collection/
+          
+          # Create ZIP file
+          zip -r ng1-blocks-collection.zip ng1-blocks-collection
+          
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ github.event.release.upload_url }}  # URL de téléversement de la release
-          asset_path: build.zip                               # Chemin du fichier compressé
-          asset_name: blocks-build.zip                        # Nom du fichier dans la release
-          asset_content_type: application/zip                 # Type de contenu
+          files: ng1-blocks-collection.zip
