@@ -31,13 +31,10 @@ jobs:
         run: |
           # Create a clean directory for the plugin
           mkdir ng1-blocks-collection
+          mkdir ng1-blocks-collection/build
           
-         # Créer le dossier build/ dans le dossier temporaire
-          mkdir -p ng1-blocks-collection/build
-
-          # Copier les dossiers de build/* dans ng1-blocks-collection/build/
+          # Copy only the necessary files
           cp -r build/* ng1-blocks-collection/build/
-          
           cp *.php ng1-blocks-collection/
           cp readme.txt ng1-blocks-collection/
           cp LICENSE ng1-blocks-collection/
