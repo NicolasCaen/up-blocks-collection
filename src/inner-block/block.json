@@ -1,16 +1,27 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "create-block/inner-block",
-	"version": "0.1.0",
-	"title": "Inner Block",
-	"category": "widgets",
-	"icon": "smiley",
-	"description": "Example block scaffolded with Create Block tool.",
+    "name": "ng1/inner-block",
+    "title": "inner-block",
+    "category": "widgets",
+	"icon": "editor-kitchensink",
 	"example": {},
 	"supports": {
-		"html": false
-	},
+		"html": false,
+		"color": {
+		  "text": true,       
+		  "background": true, 
+		  "gradients": true  
+		},
+		"className": true,   
+		"anchor": true,     
+		"spacing": {
+		  "margin": true,   
+		  "padding": true,
+		  "blockGap": true 
+		},
+		"align": true
+	  },
 	"textdomain": "inner-block",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

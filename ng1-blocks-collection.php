@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function create_block_ng1_blocks_collection_block_init() {
     // Chemin vers le dossier des blocs compilés
-    $blocks_dir = __DIR__ . '/build/blocks';
+    $blocks_dir = __DIR__ . '/build';
 
     // Vérifier si le dossier existe
     if (!file_exists($blocks_dir)) {
@@ -35,15 +35,16 @@ function create_block_ng1_blocks_collection_block_init() {
 
     // Parcourir tous les dossiers dans le dossier des blocs
     $block_folders = scandir($blocks_dir);
+	
     foreach ($block_folders as $block_folder) {
         // Ignorer les dossiers spéciaux (. et ..)
         if ($block_folder === '.' || $block_folder === '..') {
             continue;
         }
-
+	
         // Chemin complet du dossier du bloc
         $block_path = $blocks_dir . '/' . $block_folder;
-
+	
         // Vérifier si c'est un dossier
         if (is_dir($block_path)) {
             // Enregistrer le bloc
