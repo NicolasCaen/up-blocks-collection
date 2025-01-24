@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18  # Version de Node.js compatible avec @wordpress/scripts
 
       # Étape 3 : Installer les dépendances
       - name: Install dependencies
@@ -30,13 +30,13 @@ jobs:
       # Étape 5 : Compresser les fichiers compilés
       - name: Compress build artifacts
         run: |
-          zip -r build.zip build/*/
+          zip -r build.zip build/*/  # Compresse tous les dossiers dans "build/"
 
       # Étape 6 : Ajouter les fichiers compilés à la release
       - name: Upload build artifacts to release
         uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: build.zip
-          asset_name: build.zip
-          asset_content_type: application/zip
+          upload_url: ${{ github.event.release.upload_url }}  # URL de téléversement de la release
+          asset_path: build.zip                               # Chemin du fichier compressé
+          asset_name: blocks-build.zip                        # Nom du fichier dans la release
+          asset_content_type: application/zip                 # Type de contenu
